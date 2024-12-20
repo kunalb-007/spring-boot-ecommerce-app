@@ -40,4 +40,10 @@ public class ProductController {
         return ResponseEntity.ok(productResponse);
     }
 
+    @PutMapping("/admin/products/{productId}")
+    public ResponseEntity<ProductDTO> updateProduct(@RequestBody Product product, @PathVariable Long productId) {
+        ProductDTO productDTO = productService.updateProduct(productId, product);
+        return ResponseEntity.ok(productDTO);
+    }
+
 }
