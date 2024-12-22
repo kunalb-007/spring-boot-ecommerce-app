@@ -15,7 +15,11 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "users",
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username"),
+        @UniqueConstraint(columnNames = "email")
+        })
 public class User {
 
     @Id
@@ -48,4 +52,8 @@ public class User {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),     // primary key of User Entity
                 inverseJoinColumns = @JoinColumn(name = "role_id"))                 // primary key of Role Entity
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE},       // User as Seller is mapped to Products
+                orphanRemoval = true)                   // if user is deleted, products associated to it will be deleted as well
+    private Set<Product> products;
 }
