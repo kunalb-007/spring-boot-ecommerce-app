@@ -4,12 +4,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -49,10 +48,21 @@ public class User {
     @Setter
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
                 fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),     // primary key of User Entity
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),     // primary key of User Entity (User is Owner of this Relationship)
                 inverseJoinColumns = @JoinColumn(name = "role_id"))                 // primary key of Role Entity
     private Set<Role> roles = new HashSet<>();
 
+
+    @Getter
+    @Setter
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "user_address",
+                joinColumns = @JoinColumn(name = "user_id"),                        // primary key of User Entity  (User is Owner of this Relationship)
+                inverseJoinColumns = @JoinColumn(name = "address_id"))              // primary key of Address Entity
+    private List<Address> addresses = new ArrayList<>();
+
+
+    @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE},       // User as Seller is mapped to Products
                 orphanRemoval = true)                   // if user is deleted, products associated to it will be deleted as well
     private Set<Product> products;
