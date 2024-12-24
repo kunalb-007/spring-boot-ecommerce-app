@@ -15,6 +15,7 @@ public class UserInfoResponse {
     private String username;
     private List<String> roles;
 
+
     public UserInfoResponse(Long id, String username, List<String> roles, String jwtToken) {
         this.id = id;
         this.username = username;
@@ -22,4 +23,9 @@ public class UserInfoResponse {
         this.jwtToken = jwtToken;
     }
 
+    public UserInfoResponse(Long id, String username, List<String> roles) {
+        this.id = id;
+        this.username = username;
+        this.roles = roles;
+    }
 }
