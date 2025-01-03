@@ -61,6 +61,9 @@ public class User {
                 inverseJoinColumns = @JoinColumn(name = "address_id"))              // primary key of Address Entity
     private List<Address> addresses = new ArrayList<>();
 
+    @ToString.Exclude
+    @OneToOne(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private Cart cart;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE},       // User as Seller is mapped to Products
