@@ -55,10 +55,10 @@ public class User {
 
     @Getter
     @Setter
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "user_address",
-                joinColumns = @JoinColumn(name = "user_id"),                        // primary key of User Entity  (User is Owner of this Relationship)
-                inverseJoinColumns = @JoinColumn(name = "address_id"))              // primary key of Address Entity
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+//    @JoinTable(name = "user_address",
+//                joinColumns = @JoinColumn(name = "user_id"),                        // primary key of User Entity  (User is Owner of this Relationship)
+//                inverseJoinColumns = @JoinColumn(name = "address_id"))              // primary key of Address Entity
     private List<Address> addresses = new ArrayList<>();
 
     @ToString.Exclude
