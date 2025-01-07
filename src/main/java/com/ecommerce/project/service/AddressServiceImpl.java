@@ -15,16 +15,10 @@ import java.util.List;
 @Service
 public class AddressServiceImpl implements AddressService{
     @Autowired
-    private AddressRepository addressRepo;
-
-    @Autowired
-    private UserRepository userRepo;
+    private AddressRepository addressRepository;
 
     @Autowired
     private ModelMapper modelMapper;
-
-    @Autowired
-    private AuthUtil authUtil;
 
     @Override
     public AddressDTO createAddress(AddressDTO addressDTO, User user) {
@@ -33,7 +27,15 @@ public class AddressServiceImpl implements AddressService{
         List<Address> addressesList = user.getAddresses();
         addressesList.add(address);
         user.setAddresses(addressesList);
-        Address savedAddress = addressRepo.save(address);
+        Address savedAddress = addressRepository.save(address);
         return modelMapper.map(savedAddress, AddressDTO.class);
+    }
+
+    @Override
+    public List<AddressDTO> getAddresses() {
+        List<Address> addresses = addressRepository.findAll();
+        return addresses.stream()
+                .map(address -> modelMapper.map(address, AddressDTO.class))
+                .toList();
     }
 }
